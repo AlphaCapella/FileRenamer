@@ -1,19 +1,30 @@
-import sys
+# CMD script to mass-rename files or change the file extensions
 
-print ("Welcome. This script helps with mass-renaming of files")
-print ("You have the option to rename files or change the file extension. What would you like me to do?")
-print ("To rename files, enter: 1")
-print ("To change the file extension, enter: 2")
+# import sys and getopt lib to work with cmd-arguments
+import argparse, pathlib, datetime
+import string
 
-print ("Option: ")
-selection = input()
+# Function to do the automatic renaming of the files in the directory
+# Provide the date, name and path of the files
+def renamer(datum, name, path):
+    filename = datum + name
+    for i in len(path):
+        filename.append(i + 1)
+    print ("I am finished :)")
 
-if selection == 1:
+# Function to change the file extension
+def changeExt(path, extension):
     print ("LMAO")
-elif selection == 2:
-    print ("ROFL")
-else: 
-    print ("Enter 1 for file renaming and 2 for file extension. 0 to quit")
-    selection = input()
-    if selection == 0:
-        sys.exit("Bye Bye :)")
+
+# Creating parser, giving description what the script does
+parser = argparse.ArgumentParser(description="Mass rename files or file-extensions in given directory. If no directory is provided, the current will be used. Use the argument '-h' or '--Help' to see all available options.")
+
+# Available Arguments to use with the script
+parser.add_argument("-n", "--name", default="Custom_Name", action='store', dest="name", required=True, help="Set the desired name for the files")
+parser.add_argument("-p", "--path", default=pathlib.Path(), type=pathlib.Path, action="store", required=True, help="Set the path to the directory you want to rename files")
+parser.add_argument("-d", "--date", default=datetime.date.today().strftime("%y_%m_%d"), type=datetime.date, help="Uses today's date as the default, otherwise needs to be input in the format 'YYYY_MM_DD'") 
+
+parser.parse_args()
+
+# Call the renamer function with the argparse arguments and do the renaming
+#renamer (parser.date, parser.name, parser.path)
